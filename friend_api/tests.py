@@ -61,7 +61,7 @@ class FriendApiTests(APITestCase):
     def test_accept_friend(self):
         url = 'https://127.0.0.1:8000%s' % reverse('accept_or_reject', args=[1, 2])
         self.add_test_user()
-        response = self.client.put(url, format='json')
+        response = self.client.patch(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(User.objects.get(pk=1).friendList['2']['status'], 'in friend')
         self.assertEqual(User.objects.get(pk=2).friendList['1']['status'], 'in friend')
@@ -69,7 +69,7 @@ class FriendApiTests(APITestCase):
     def test_reject_friend(self):
         url = 'https://127.0.0.1:8000%s' % reverse('accept_or_reject', args=[1, 2])
         self.add_test_user()
-        response = self.client.patch(url, format='json')
+        response = self.client.delete(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {'reject': 'Заявка Chel отклонена'})
 
